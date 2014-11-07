@@ -12,15 +12,22 @@ GPLUS_IDS = {
     'admin': 'admin123'
 }
 
-
 class TestingTemplate(unittest.TestCase):
 
     def setUp(self):
+        print "hello"
+        # clear the database? ok
+        # creates users and save them
+        
+        # user flow
+        #   login
+        #   success!?
+
         from app.models import User
-        # User.drop_collection()
+        User.drop_collection()
+
         # for u in User.objects():
         #     u.delete()
-        _get_db()   .drop_database('testing')
         user= User(name='Test User',
                    email='user@te.st',
                      gplus_id=GPLUS_IDS['user'])
@@ -36,6 +43,7 @@ class TestingTemplate(unittest.TestCase):
                     email='admin@te.st',
                     user_type='admin',
                     gplus_id=GPLUS_IDS['admin'])
+
         user.save()
         editor.save()
         publisher.save()
@@ -59,19 +67,20 @@ class TestingTemplate(unittest.TestCase):
     # def tearDownClass(self):
     #     """ Drops the test database after the classes' tests are finished"""
 
-    # def request_with_role(self, path, method='GET', role='admin',
-    #                       *args, **kwargs):
-    #     """ Make an http request with the given role's gplus_id
-    #     in the session and a User with the given role in the database.
-    #     """
-    #     with self.app.test_client() as c:
-    #         with c.session_transaction() as sess:
-    #             if role in GPLUS_IDS:
-    #                 # if it isn't, the request is without a role
-    #                 sess['gplus_id'] = GPLUS_IDS[role]
-    #             kwargs['method'] = method
-    #             kwargs['path'] = path
-    #         return c.open(*args, **kwargs)
+    def request_with_role(self, path, method='GET', role='admin',
+                          *args, **kwargs):
+        """ Make an http request with the given role's gplus_id
+        in the session and a User with the given role in the database.
+        """
+        from app import app
+        with app.test_client() as c:
+            with c.session_transaction() as sess:
+                if role in GPLUS_IDS:
+                    # if it isn't, the request is without a role
+                    sess['gplus_id'] = GPLUS_IDS[role]
+                kwargs['method'] = method
+                kwargs['path'] = path
+            return c.open(*args, **kwargs)
 
     # # def assert_flashes(self, expected_message, expected_category='message'):
     # #     with self.app.test_client().session_transaction() as session:
