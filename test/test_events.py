@@ -165,10 +165,12 @@ class TestEvents(base.TestingTemplate):
         }
 
         self.assertEqual(Event.objects(location="45 Some Location").count(), 0)
+        
         resp = self.request_with_role('/admin/events/create',
             method='POST',
             data=query_string_data,
             follow_redirects=True)
+
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(Event.objects(location="45 Some Location").count(), 1)
 
@@ -203,15 +205,10 @@ class TestEvents(base.TestingTemplate):
         e.save()
         self.assertEqual(Event.objects(creator=e.creator).count(), 1)
         _id = e.id
-        fake_client = Mock(return_value=None)
-
-
-        # Mock app.gcal_client, give it a fake method called delete_event, that returns None
-
-        with patch('app.gcal_client.delete_event') as fake_gclient:
-            resp = self.request_with_role('/admin/events/delete/%s' % _id,
-                                           method="POST",
-                                           follow_redirects=True)
+        
+        resp = self.request_with_role('/admin/events/delete/%s' % _id,
+                                       method="POST",
+                                       follow_redirects=True)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(Event.objects(creator=e.creator).count(), 0)
 

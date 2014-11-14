@@ -15,7 +15,6 @@ GPLUS_IDS = {
 class TestingTemplate(unittest.TestCase):
 
     def setUp(self):
-        print "hello"
         # clear the database? ok
         # creates users and save them
         

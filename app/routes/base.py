@@ -10,7 +10,7 @@ import sys
 from flask import g, session, render_template, request, redirect, Blueprint
 from mongoengine.queryset import DoesNotExist
 import requests
-
+from app import app
 from app.models import User
 
 SUPER_USER_GPLUS_ID = 'super'
@@ -89,7 +89,7 @@ def lookup_current_user():
         except DoesNotExist:
             pass  # Fail gracefully if the user is not in the database yet
 
-@base.context_processor
+@app.context_processor
 def inject_user():
     """Injects a variable named ``current_user`` into all of the Jinja
     templates, so that it can be used at will.
@@ -98,7 +98,7 @@ def inject_user():
         return dict(current_user=g.user)
     return dict(current_user=None)
 
-@base.after_request
+@app.after_request
 def add_header(response):
     """
     Add headers to both force latest IE rendering engine or Chrome Frame,
