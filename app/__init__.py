@@ -5,11 +5,11 @@ from flask import Flask
 from flask.ext.mongoengine import MongoEngine
 from flask.ext.assets import Environment, Bundle
 
-from config import adi_config
+from config import client_config as client_cfgs
 
 db = MongoEngine()
 app = None
-adi = dict()
+client_config = dict()
 assets = None
 gcal_client = None
 
@@ -20,7 +20,7 @@ def create_app(**config_overrides):
     """
     # we want to modify the global app, not a local copy
     global app
-    global adi
+    global client
     global assets
     global gcal_client
     app = Flask(__name__)
@@ -30,9 +30,9 @@ def create_app(**config_overrides):
     app.config.from_object('config.flask_config')
     app.config.update(config_overrides)
 
-    # load ADI specific configurations (ignore built-in methods)
-    for attr in (x for x in dir(adi_config) if x[:2] != "__"):
-        adi[attr] = getattr(adi_config, attr)
+    # load client specific configurations (ignore built-in methods)
+    for attr in (x for x in dir(client_cfgs) if x[:2] != "__"):
+        client_config[attr] = getattr(client_cfgs, attr)
 
     # Initialize assets
     assets = Environment(app)
@@ -90,8 +90,8 @@ def register_blueprints():
     for bp in admin_blueprints:
         app.register_blueprint(bp, url_prefix="/admin")
 
-    from app.routes import blog, client, base
-    blueprints = [blog, client, base]
+    from app.routes import base, client
+    blueprints = [base, client]
 
     for bp in blueprints:
         app.register_blueprint(bp)

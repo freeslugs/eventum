@@ -64,7 +64,6 @@
     "output_folder": "css/gen/client/",
     "depends": [
       "scss/client/*.scss",
-      "scss/client/components/*.scss",
       "scss/common/*.scss"
     ],
     "rules": {
@@ -73,24 +72,8 @@
         "output": "client.css",
         "inputs": [
           "scss/client/*.scss",
-          "scss/client/components/*.scss",
           "scss/common/*.scss"
         ]
-      },
-
-      "scss_blog": {
-        "output": "blog.css",
-        "inputs": [ "scss/client/blog/*.scss" ]
-      },
-
-      "scss_single_event": {
-        "output": "single_event.css",
-        "inputs": [ "scss/client/single_event/*.scss" ]
-      },
-
-      "scss_resources": {
-        "output": "single_event.css",
-        "inputs": [ "scss/client/resources/*.scss" ]
       }
     }
   }

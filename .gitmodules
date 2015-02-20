@@ -1,3 +1,0 @@
-[submodule "data/old-website-data"]
-	path = data/old-website-data
-	url = git@github.com:adicu/old-website-data.git

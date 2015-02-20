@@ -35,8 +35,8 @@ pep8==1.5.7
 pycurl==7.19.0
 pyflakes==0.8.1
 pymongo==2.7.2
-python-apt==0.8.3ubuntu7
-python-debian==0.1.21ubuntu1
+## python-apt==0.8.3ubuntu7
+## python-debian==0.1.21ubuntu1
 requests==2.3.0
 ufw==0.31.1-1
 unattended-upgrades==0.1

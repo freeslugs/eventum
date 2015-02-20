@@ -7,12 +7,13 @@
 
 from flask import url_for
 from mongoengine import ValidationError
-from app import adi, db
+from app import client_config, db
 from app.models.fields import DateField, TimeField
 import markdown
 
 from datetime import datetime, timedelta
 now = datetime.now
+
 
 class Event(db.Document):
     """The object that represents an individual event in Mongoengine.
@@ -119,7 +120,7 @@ class Event(db.Document):
         """
         if self.image:
             return self.image.url()
-        return url_for('static', filename=adi['DEFAULT_EVENT_IMAGE'])
+        return url_for('static', filename=client_config['DEFAULT_EVENT_IMAGE'])
 
     @property
     def index(self):
@@ -322,7 +323,7 @@ class Event(db.Document):
         # Check times against None, because midnight is represented by 0.
         return (self.start_time is not None and
                 self.end_time is not None and
-                self.start_time.strftime("%p")==self.end_time.strftime("%p"))
+                self.start_time.strftime("%p") == self.end_time.strftime("%p"))
 
     def __unicode__(self):
         """This event, as a unicode string.
@@ -340,5 +341,5 @@ class Event(db.Document):
         """
         return 'Event(title=%r, location=%r, creator=%r, start=%r, end=%r, ' \
             'published=%r)' % (self.title, self.location, self.creator,
-                             self.start_datetime(), self.end_datetime(),
-                             self.published)
+                               self.start_datetime(), self.end_datetime(),
+                               self.published)

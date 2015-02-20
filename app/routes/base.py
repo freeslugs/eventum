@@ -9,7 +9,6 @@
 import sys
 from flask import g, session, render_template, request, redirect, Blueprint
 from mongoengine.queryset import DoesNotExist
-import requests
 
 from app import app
 from app.models import User
@@ -42,14 +41,6 @@ def forbidden(error):
 @app.errorhandler(404)
 def not_found(error):
     """Handle 404 errors."""
-    old_site_url = 'http://adicu.github.com' + request.path
-    try:
-        response = requests.head(old_site_url, allow_redirects=True)
-        if response.status_code == 200:
-            return redirect(old_site_url)
-    except requests.exceptions.ConnectionError:
-        pass
-
     return render_template('error/404.html'), 404
 
 @app.errorhandler(405)
