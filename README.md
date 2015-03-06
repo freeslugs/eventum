@@ -2,6 +2,8 @@
 
 Eventum is a content management system for an event-driven blog that syncs with Google Calendar.
 
+![eventum](https://adicu.com/admin/media/uploads/home.png)
+
 ## Stack
 - Built in [Flask][flask]
 - [Flask-Mongoengine][flask-mongoengine] and [Mongoengine][mongoengine] are used to interface with [MongoDB][mongodb]  
@@ -160,6 +162,12 @@ nosetests
 ├── test             # Unit tests
 └── log              # Log Files
 ```
+
+## Screenshots
+
+![home](https://adicu.com/admin/media/uploads/home.png)
+![editors](https://adicu.com/admin/media/uploads/editors.png)
+![events](https://adicu.com/admin/media/uploads/events.png)
 
 [flask]: http://flask.pocoo.org/
 [flask-assets]: http://flask-assets.readthedocs.org/en/latest/
