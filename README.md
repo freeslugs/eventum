@@ -2,6 +2,8 @@
 
 Eventum is a content management system for an event-driven blog that syncs with Google Calendar.
 
+![eventum](https://adicu.com/admin/media/uploads/home.png)
+
 ## Stack
 - Built in [Flask][flask]
 - [Flask-Mongoengine][flask-mongoengine] and [Mongoengine][mongoengine] are used to interface with [MongoDB][mongodb]  
@@ -22,12 +24,14 @@ Eventum runs on Linux and OSX.  To get it up an running, follow these steps:
     $ sudo pip install virtualenv
     ```
 
-4.  Download a copy of `client_secrets.json` from the [Google Developer Console][google-developer-console] or from a friend, and place it in the `config` folder.
+3.  Download a copy of `client_secrets.json` from the [Google Developer Console][google-developer-console] or from a friend, and place it in the `config` folder.
 
-5.  Authorize the Google Calendar API:
+4.  Authorize the Google Calendar API:
     ```bash
     $ python manage.py --authorize
     ```
+5.  Install SASS gem `gem install sass`
+    * otherwise, you will see an `OS` error
 
 Then you should be all set to run!
 
@@ -39,7 +43,7 @@ Here's how to run Eventum in a development environment:
 mongod &
 virtualenv --no-site-packages .
 source bin/activate
-source config/settings.sh
+source config/settings.dev
 pip install -r config/requirements.txt
 
 python run.py
@@ -47,12 +51,14 @@ python run.py
 
 Or alternately:
 
-```
+```bash
 ./develop.sh
 source bin/activate
-source config/settings.sh
+source config/settings.dev
 python run.py
 ```
+
+Finally, go to `localhost:5000` on your browser 
 
 #### Developing without Authentication
 
@@ -61,6 +67,63 @@ It is possible to run Eventum without logging in using Google+ or authenticating
 ```bash
 # Whether or not to enable Google Auth or not.
 echo $GOOGLE_AUTH_ENABLED
+```
+
+
+
+
+## Vagrant
+
+There is an alternative installation route that will set up a virtual machine on your computer and install all necessary software for you.
+You must first install [Virtual box](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/).
+
+
+```bash
+vagrant up
+# wait for installation
+
+# enter your virtual machine
+vagrant ssh
+
+# enter your project directory
+cd /vagrant
+
+# add application settings to your environment
+source config/settings.sh
+
+# run the application
+python run.py
+
+# view the app!
+# open your browser to localhost:5000
+```
+
+
+
+
+## Documentation
+
+Eventum uses [Sphinx](http://sphinx-doc.org/) to compile documentation to an HTML website.  This documentation is generated from the source code.
+
+Here's how to compile the docs:
+
+```bash
+# The documentation requires that the app is runnable, so you must be in a
+# development environment
+./develop.sh
+source bin/activate
+source config/settings.sh
+
+cd docs
+# This will generate the documentation website in /docs/_build/html
+make html 
+
+# Then either host the docs on localhost:8000
+cd _build/html
+python -m SimpleHTTPServer .
+
+# Or open them directly
+open _build/html/index.html
 ```
 
 ## Testing
@@ -96,8 +159,15 @@ nosetests
 ├── manage.py        # Various scripts.  Run `python manage.py` to view usage.
 ├── run.py           # Runs the app!
 ├── script           # Scripts run by `manage.py` outside of the app
-└── test             # Unit tests
+├── test             # Unit tests
+└── log              # Log Files
 ```
+
+## Screenshots
+
+![home](https://adicu.com/admin/media/uploads/home.png)
+![editors](https://adicu.com/admin/media/uploads/editors.png)
+![events](https://adicu.com/admin/media/uploads/events.png)
 
 [flask]: http://flask.pocoo.org/
 [flask-assets]: http://flask-assets.readthedocs.org/en/latest/

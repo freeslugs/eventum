@@ -1,19 +1,19 @@
-import gflags
+import argparse
 from sys import argv, exit
-from oauth2client.file import Storage
-from config import flask_config
 
+import gflags
+from oauth2client.file import Storage
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.tools import run_flow
 from oauth2client import tools
-import argparse
+
+from config import flask_config
 from script import backfill_blog, import_images
 
 parser = argparse.ArgumentParser(parents=[tools.argparser])
 FLAGS = parser.parse_args()
 
 def authorize_google_calendar():
-
     FLOW = flow_from_clientsecrets(flask_config.INSTALLED_APP_SECRET_PATH,
                    scope='https://www.googleapis.com/auth/calendar')
 
@@ -29,8 +29,8 @@ def print_usage():
 
 if __name__ == '__main__':
     if '--backfill-blog' in argv or '-b' in argv:
-        backfill_blog.backfill_from_jekyll('data/jekyll-posts')
+        backfill_blog.backfill_from_jekyll('data/old-website-data/posts')
     elif '--import-images' in argv or '-i' in argv:
-        import_images.import_from_directory('data/jekyll-images')
+        import_images.import_from_directory('data/old-website-data/images')
     else:
         authorize_google_calendar()
